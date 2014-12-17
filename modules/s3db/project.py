@@ -937,8 +937,8 @@ class S3ProjectActivityModel(S3Model):
                                 # Doesn't support translation
                                 #represent = "%(name)s",
                                 ))
-        # @ToDo: deployment_setting
-        if settings.has_module("stats"):
+
+        if settings.has_module("stats") and settings.get_project_activity_filter_beneficiary():
             rappend("beneficiary.parameter_id")
             fact_fields.insert(0,
                                (T("Number of Beneficiaries"), "sum(beneficiary.value)")
