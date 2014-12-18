@@ -802,6 +802,8 @@ settings.gis.geonames_username = "eden_test"
 # Uncomment to customise the list of options for the Status of a Task.
 # NB Be very cautious about doing this (see docstring in modules/s3cfg.py)
 #settings.project.task_status_opts =
+# Uncomment to configure beneficiary in project activity reports
+#settings.project.activity_filter_beneficiary = False
 
 # -----------------------------------------------------------------------------
 # Incidents

@@ -2836,6 +2836,12 @@ class S3Config(Storage):
         """
         return self.project.get("activity_filter_year", False)
 
+    def get_project_activity_filter_beneficiary(self):
+        """
+            Filter according to Beneficiary in Activities
+        """
+        return self.project.get("activity_filter_beneficiary", True)
+
     def get_project_codes(self):
         """
             Use Codes in Projects
