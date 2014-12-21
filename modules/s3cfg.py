@@ -44,6 +44,8 @@ from gluon.storage import Storage
 
 from s3theme import *
 
+T = current.T
+
 class S3Config(Storage):
     """
         Deployment Settings Helper Class
@@ -2053,6 +2055,18 @@ class S3Config(Storage):
         """
         return self.cms.get("show_titles", False)
 
+    def get_cms_multiple_organisations(self):
+        """
+            Whether there should exist mulitple Org components per Posts
+        """
+        return self.cms.get("multiple_organisations", False)
+
+    def get_cms_multiple_organisation_groups(self):
+        """
+            Whether there should exist mulitple Org group components per Posts
+        """
+        return self.cms.get("multiple_organisation_groups", False)
+
     # -------------------------------------------------------------------------
     # Shelters
     #
@@ -2085,6 +2099,12 @@ class S3Config(Storage):
         """
         return self.cr.get("shelter_housing_unit_management", False)
 
+    def get_cr_shelter_notification_subject(self):
+        """
+            Subject for the Shelter Notification Dispatcher
+        """
+        return self.cr.get("shelter_notification_subject", T("Deployment Request"))
+
     # -------------------------------------------------------------------------
     # Deployments
     #
@@ -2109,6 +2129,12 @@ class S3Config(Storage):
             Whether Incident Types are Hierarchical or not
         """
         return self.event.get("incident_types_hierarchical", False)
+
+    def get_event_notification_subject(self):
+        """
+            Subject for the Event Notification Dispatcher
+        """
+        return self.event.get("notification_subject", T("Deployment Request"))
 
     # -------------------------------------------------------------------------
     # Evacuees
