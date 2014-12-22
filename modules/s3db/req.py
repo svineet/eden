@@ -130,9 +130,12 @@ class S3RequestModel(S3Model):
                                   writable = False,
                                   )
 
-        req_priority_opts = {3: T("High"),
-                             2: T("Medium"),
-                             1: T("Low")
+        req_priority_opts = {3: SPAN(T("High"),
+                                        _class = "req_priority_high"),
+                             2: SPAN(T("Medium"),
+                                        _class = "req_priority_medium"),
+                             1: SPAN(T("Low"),
+                                        _class = "req_priority_low")
                              }
 
         req_types_deployed = settings.get_req_req_type()

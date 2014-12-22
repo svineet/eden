@@ -1650,3 +1650,17 @@ button.toggle-text {
     width: 350px;
     height: 130px;
 }
+
+/* Request Priority Colour Code */
+.req_priority_high{
+    color: rgb(255,0,0);
+    font-weight: bold;    
+}
+.req_priority_medium{
+    color: rgb(255,165,0);
+    font-weight: bold;    
+}
+.req_priority_low{
+    color: rgb(0,100,0);
+    font-weight: bold;   
+}
