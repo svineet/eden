@@ -1857,7 +1857,7 @@ def deploy_response_select_mission(r, **attr):
     T = current.T
     db = current.db
     s3db = current.s3db
-
+    settings = current.deployment_settings
     atable = s3db.msg_attachment
     dtable = db.doc_document
     query = (atable.message_id == message_id) & \
@@ -1875,7 +1875,7 @@ def deploy_response_select_mission(r, **attr):
     if mission_id:
         hr_id = get_vars.get("hr_id", None)
         if not hr_id:
-            # @ToDo: deployment_setting for 'Member' label
+            member_label = settings.get_deploy_member_label()
             current.session.warning = T("No Member Selected!")
             # Can still link to the mission, member can be set
             # manually in the mission profile
@@ -2038,7 +2038,7 @@ def deploy_response_select_mission(r, **attr):
             row = ""
         else:
             id = "deploy_response_human_resource_id__row"
-            # @ToDo: deployment_setting for 'Member' label
+            member_label = settings.get_deploy_member_label()
             title = T("Select Member")
             label = "%s:" % title
             field = s3db.deploy_response.human_resource_id

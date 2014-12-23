@@ -2114,6 +2114,12 @@ class S3Config(Storage):
             e.g. 'Staff', 'Volunteer' (CERT), 'Member' (RDRT)
         """
         return self.deploy.get("hr_label", "Staff")
+    
+    def get_deploy_member_label(self):
+        """
+            Configure "Member" label
+        """
+        return current.T(self.deploy.get("member_label", "Member"))    
 
     # -------------------------------------------------------------------------
     # Events
@@ -2276,6 +2282,12 @@ class S3Config(Storage):
             - disable this if needing a separate contact per sector
         """
         return self.hrm.get("site_contact_unique", True)
+
+    def get_hrm_multiple_site_contact(self):
+        """
+            deployment settings to allow multiple site contacts per site
+        """
+        return self.hrm.get("multiple_site_contact", True)        
 
     def get_hrm_skill_types(self):
         """
