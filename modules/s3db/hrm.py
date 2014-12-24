@@ -5206,9 +5206,8 @@ def hrm_human_resource_onaccept(form):
 
     if settings.get_hrm_site_contact_unique():
         # Ensure only one Site Contact per Site
-        if site_contact and site_id:
+        if settings.get_hrm_multiple_site_contact() and site_id:
             # Set all others in this Facility to not be the Site Contact
-            # @ToDo: deployment_setting to allow multiple site contacts
             query  = (htable.site_id == site_id) & \
                      (htable.site_contact == True) & \
                      (htable.id != id)

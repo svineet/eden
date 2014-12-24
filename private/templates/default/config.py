@@ -322,7 +322,8 @@ settings.gis.geonames_username = "eden_test"
 #settings.msg.require_international_phone_numbers = False
 # Uncomment to make basestation codes unique
 #settings.msg.basestation_code_unique = True
-
+# Uncomment to change the label for 'Member'
+#settings.deploy.member_label = "Member"
 # Use 'soft' deletes
 #settings.security.archive_not_delete = False
 
@@ -581,6 +582,8 @@ settings.gis.geonames_username = "eden_test"
 #settings.hrm.location_vol = ("person_id", "site_id")
 # Uncomment this to allow multiple site contacts per site (e.g. if needing a separate contact per sector)
 #settings.hrm.site_contact_unique = False
+# Uncomment this to allow multiple site contacts per site
+#settings.hrm.multiple_site_contact = True
 # Uncomment to allow hierarchical categories of Skills, which each need their own set of competency levels.
 #settings.hrm.skill_types = True
 # Uncomment to disable Staff experience
