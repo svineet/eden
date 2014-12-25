@@ -199,6 +199,10 @@ settings.L10n.decimal_separator = "."
 #settings.fin.currency_default = "USD"
 #settings.fin.currency_writable = False # False currently breaks things
 
+# Vulnerability settings
+# Uncomment this line to configure countries
+#settings.vulnerability.countries = ["TL", "VN"]
+
 # PDF settings
 # Default page size for reports (defaults to A4)
 #settings.base.paper_size = T("Letter")
