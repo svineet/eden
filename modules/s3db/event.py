@@ -2282,7 +2282,7 @@ def event_notification_dispatcher(r, **attr):
         T = current.T
         msg = current.msg
         s3db = current.s3db
-
+        settings = current.deployment_settings
         ctable = s3db.pr_contact
         itable = s3db.event_incident
         etable = s3db.event_event
