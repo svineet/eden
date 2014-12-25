@@ -625,6 +625,8 @@ settings.gis.geonames_username = "eden_test"
 #settings.hrm.use_trainings = False
 # Uncomment to use activity types in experience record, specify as {"code":"label", ...}
 #settings.hrm.activity_types = {"rdrt": "RDRT Mission"}
+# Uncomment to change the label for HR Credentials Widget  
+#settings.hrm.credentials_widget_label = "Sectors"
 
 # -----------------------------------------------------------------------------
 # Inventory Management

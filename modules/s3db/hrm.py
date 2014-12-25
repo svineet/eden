@@ -6430,8 +6430,7 @@ def hrm_human_resource_controller(extra_filter=None):
                                   # Default renderer:
                                   #list_layout = s3db.pr_render_address,
                                   )
-            credentials_widget = dict(# @ToDo: deployment_setting for Labels
-                                      label = "Sectors",
+            credentials_widget = dict(label = settings.get_hrm_credentials_widget_label(),
                                       label_create = "Create Sector",
                                       type = "datalist",
                                       tablename = "hrm_credential",

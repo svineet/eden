@@ -2388,6 +2388,12 @@ class S3Config(Storage):
         """
         return self.hrm.get("use_credentials", True)
 
+    def get_hrm_credentials_widget_label(self):
+        """
+            Label for HR Credentials Widget
+        """
+        return self.hrm.get("credentials_widget_label", T("Sectors"))
+
     def get_hrm_use_description(self):
         """
             Whether Human Resources should use Physical Description
