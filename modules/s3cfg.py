@@ -3137,6 +3137,9 @@ class S3Config(Storage):
     def get_vulnerability_indicator_hierarchical(self):
         return self.vulnerability.get("indicator_hierarchical", False)
 
+    def get_vulnerability_countries(self):
+        return self.vulnerability.get("countries", ["VN"])
+
     # -------------------------------------------------------------------------
     # Transport
     #
