@@ -3176,6 +3176,12 @@ class S3Config(Storage):
         return self.supply.get("use_alt_name", True)
 
     # -------------------------------------------------------------------------
+    # Disease
+    #
+    def get_disease_stats_data_approval(self):
+        return self.disease.get("stats_data_approval", False)
+        
+    # -------------------------------------------------------------------------
     # Vulnerability
     #
     def get_vulnerability_indicator_hierarchical(self):

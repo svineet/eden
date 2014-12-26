@@ -768,6 +768,11 @@ settings.gis.geonames_username = "eden_test"
 #settings.supply.catalog_default = T("Default")
 
 # -----------------------------------------------------------------------------
+# Disease
+# Uncomment to enable the approval for disease stats data
+#settings.disease.stats_data_approval = True
+
+# -----------------------------------------------------------------------------
 # Projects
 # Uncomment this to use settings suitable for a global/regional organisation (e.g. DRR)
 #settings.project.mode_3w = True
