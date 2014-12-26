@@ -697,6 +697,7 @@ class S3DeploymentAlertModel(S3Model):
     names = ("deploy_alert",
              "deploy_alert_recipient",
              "deploy_response",
+             "deploy_response_document",
              )
 
     def model(self):
@@ -825,6 +826,7 @@ class S3DeploymentAlertModel(S3Model):
         # ---------------------------------------------------------------------
         # Recipients of the Alert
         #
+        super_link = self.super_link
         tablename = "deploy_alert_recipient"
         define_table(tablename,
                      alert_id(),
@@ -851,6 +853,7 @@ class S3DeploymentAlertModel(S3Model):
         #
         tablename = "deploy_response"
         define_table(tablename,
+                     super_link("doc_id", "doc_entity"),
                      mission_id(),
                      human_resource_id(label = T(hr_label)),
                      message_id(label = T("Message"),
@@ -862,8 +865,11 @@ class S3DeploymentAlertModel(S3Model):
                                     "human_resource_id",
                                     "message_id",
                                     "comments",
-                                    # @todo:
-                                    #S3SQLInlineComponent("document"),
+                                    S3SQLInlineComponent("document",
+                                                         label = T("Files"),
+                                                         link = False,
+                                                         fields = ["file"],
+                                                         ),
                                     )
 
         # Table Configuration
@@ -874,6 +880,23 @@ class S3DeploymentAlertModel(S3Model):
                   insertable = False,
                   update_onaccept = self.deploy_response_update_onaccept,
                   )
+
+        add_components(tablename,
+                      doc_document= {"link": "deploy_response_document",
+                                     "joinby": "mission_id",
+                                     "key": "document_id",
+                                     "autodelete": False,
+                                    },                        
+                       )      
+
+        mission_id = S3ReusableField("mission_id", "reference %s" % tablename,
+                                     label = T("Responses to Alerts"),
+                                     ondelete = "CASCADE",
+                                     represent = represent,
+                                     requires = IS_ONE_OF(db,
+                                                          "deploy_mission.id",
+                                                          represent),
+                                     )       
 
         # CRUD Strings
         NO_MESSAGES = T("No Messages found")
@@ -887,6 +910,12 @@ class S3DeploymentAlertModel(S3Model):
             msg_no_match = NO_MESSAGES,
             msg_list_empty = NO_MESSAGES)
 
+        tablename = "deploy_response_document"
+        define_table(tablename,
+                     mission_id(),
+                     self.msg_message_id(),
+                     self.doc_document_id(),
+                     *s3_meta_fields())
         # ---------------------------------------------------------------------
         # Pass names back to global scope (s3.*)
         #
