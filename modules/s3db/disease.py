@@ -1151,7 +1151,7 @@ class DiseaseStatsModel(S3Model):
         crud_strings = current.response.s3.crud_strings
         define_table = self.define_table
         super_link = self.super_link
-
+        settings = current.deployment_settings
         location_id = self.gis_location_id
 
         stats_parameter_represent = S3Represent(lookup="stats_parameter",
@@ -1303,8 +1303,7 @@ class DiseaseStatsModel(S3Model):
                   # required or not. Disable when auth.override is True.
                   #onaccept = self.disease_stats_update_aggregates,
                   #onapprove = self.disease_stats_update_aggregates,
-                  # @ToDo: deployment_setting
-                  #requires_approval = True,
+                  requires_approval = settings.get_disease_stats_data_approval(),
                   super_entity = "stats_data",
                   timeplot_options = {"defaults": {"event_start": "date",
                                                    "event_end": "date",
