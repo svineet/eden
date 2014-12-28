@@ -94,12 +94,10 @@ $('#login-btn').click(function(){
         else:
             output["event_list"] = self.event_list()
             output["shelter_list"] = self.shelter_list()
-            output["events_btn"] = self.events_btn()
             output["pr_btn"] = self.pr_btn()
             output["staff_btn"] = self.staff_btn()
             output["volunteers_btn"] = self.volunteers_btn()
             output["evacuees_btn"] = self.evacuees_btn()
-            output["shelters_btn"] = self.shelters_btn()
 
         output["self_registration"] = self_registration
         output["registered"] = registered
@@ -176,6 +174,14 @@ $(document).ready(function(){
         shelter_list = UL(_id = "shelter_list",
                           _class = "f-dropdown",
                           data = {"dropdown-content": ""})
+
+        shelter_list.append(
+            LI(A(T("Shelters"),
+                 _href=URL(c="cr", f="shelter")
+                 )
+               )
+            )
+
         rows = data["rows"]
         if rows:
             for row in rows:
@@ -192,8 +198,21 @@ $(document).ready(function(){
                       shelter_list
                       )
         else:
-            # @todo: check permission and provide an "Add Shelter" button
-            #        if not shelters are yet registered
+            if current.auth.s3_has_permission("write", current.db.cr_shelter):
+                shelter_list.append(
+                    LI(A(T("Create Shelter"),
+                         _href=URL(c="cr",
+                         f="shelter",
+                         args=["create"])
+                         )
+                       )
+                    )
+
+                return LI(A(T("Shelters"),
+                            _class="button dropdown",
+                            data={"dropdown": "shelter_list"}),
+                          shelter_list
+                          )
             return ""
 
     # -------------------------------------------------------------------------
@@ -209,6 +228,13 @@ $(document).ready(function(){
                         _class = "f-dropdown",
                         data = {"dropdown-content": ""})
         rows = data["rows"]
+
+        event_list.append(
+            LI(A(T("Events"),
+                 _href=URL(c="event", f="event"))
+               )
+            )
+
         if rows:
             for row in rows:
                 event_list.append(LI(A(row["event_event.name"],
@@ -224,17 +250,23 @@ $(document).ready(function(){
                       event_list
                       )
         else:
-            # @todo: check permission and provide an "Add Event" button
-            #        if not events are yet registered?
-            return ""
+            if current.auth.s3_has_permission("write", current.db.event_event):
+                event_list.append(
+                    LI(A(T("Create Event"),
+                         _href=URL(c="event",
+                         f="event",
+                         args=["create"])
+                         )
+                       )
+                    )
 
-    # -------------------------------------------------------------------------
-    def events_btn(self):
-        T = current.T
-        return LI(A(T("Events"),
-                    _href=URL(c="event", f="event"),
-                    _class="button button-home")
-                  )
+                return LI(A(T("Events"),
+                            _class="button dropdown",
+                            data={"dropdown": "event_list"}),
+                          event_list
+                          )
+
+            return ""
 
     # -------------------------------------------------------------------------
     def pr_btn(self):
@@ -266,14 +298,6 @@ $(document).ready(function(){
         T = current.T
         return LI(A(T("Evacuees"),
                     _href=URL(c="evr", f="person"),
-                    _class="button button-home")
-                  )
-
-    # -------------------------------------------------------------------------
-    def shelters_btn(self):
-        T = current.T
-        return LI(A(T("Shelters"),
-                    _href=URL(c="cr", f="shelter"),
                     _class="button button-home")
                   )
 
