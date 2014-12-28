@@ -435,3 +435,11 @@ form.filter-form,
 #page-footer #footer-copyrights {
     border-top: 0;
 }
+
+/* Activity Log */
+
+.activity-log-avatar {
+    width: 50px;
+    padding: 5px;
+    padding-top: 0;
+}
