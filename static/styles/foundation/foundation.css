@@ -6379,9 +6379,9 @@ meta.foundation-mq-topbar {
   .top-bar-section .has-dropdown.hover > .dropdown, .top-bar-section .has-dropdown.not-click:hover > .dropdown {
     display: block;
     position: static !important;
-    height: auto;
+    height: 100px;
     width: auto;
-    overflow: visible;
+    overflow: scroll;
     clip: auto;
     position: absolute !important;
   }
@@ -6459,6 +6459,9 @@ meta.foundation-mq-topbar {
   .top-bar-section .right li .dropdown {
     left: auto;
     right: 0;
+    max-height: 350px;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
   /* line 632, ../../themes/foundation/scss/components/_top-bar.scss */
   .top-bar-section .right li .dropdown li .dropdown {
