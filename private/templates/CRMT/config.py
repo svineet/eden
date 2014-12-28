@@ -2203,9 +2203,8 @@ class ActivityLogLayout(S3DataListLayout):
         for row in rows:
             user_id = row[ltable.user_id]
             avatar = s3_avatar_represent(user_id,
-                                         _class="media-object",
-                                         # @ToDo: Move to CSS
-                                         _style="width:50px;padding:5px;padding-top:0px;")
+                                         _class="media-object avatar",
+                                         )
             person_id = row[ptable.id]
             if person_id:
                 person_url = URL(c="pr", f="person", args=[person_id])
