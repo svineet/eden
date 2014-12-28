@@ -825,6 +825,9 @@ def customise_pr_person_controller(**attr):
     has_permission = current.auth.s3_has_permission
     if has_permission("read", "pr_contact"):
         tabs.append((T("Contact Details"), "contacts"))
+    if has_permission("read", "pr_image"):
+        tabs.append((T("Images"), "image"))
+
 
     attr["rheader"] = lambda r: s3db.pr_rheader(r, tabs=tabs)
 
@@ -845,6 +848,7 @@ def customise_pr_person_controller(**attr):
             list_fields = ["first_name",
                            "middle_name",
                            "last_name",
+                           "age",
                            "human_resource.organisation_id",
                            "address.location_id"
                            ]
@@ -870,6 +874,7 @@ def customise_pr_person_controller(**attr):
                 "first_name",
                 "middle_name",
                 "last_name",
+                "date_of_birth",
                 S3SQLInlineComponent("contact",
                     label = T("Email"),
                     multiple = False,
@@ -884,16 +889,17 @@ def customise_pr_person_controller(**attr):
                     multiple = False,
                     fields = [("", "note_text")],
                     ),
-                S3SQLInlineComponent(
-                    "image",
-                    name = "image",
-                    label = T("Photo"),
-                    multiple = False,
-                    fields = [("", "image")],
-                    filterby = dict(field = "profile",
-                                    options=[True]
-                                    ),
-                    ),
+                # Use of S3ImageCropWidget is not working in S3SQLInlineComponent
+                #S3SQLInlineComponent(
+                #    "image",
+                #    name = "image",
+                #    label = T("Photo"),
+                #    multiple = False,
+                #    fields = [("", "image")],
+                #    filterby = dict(field = "profile",
+                #                    options=[True]
+                #                    ),
+                #    ),
                 S3SQLInlineComponent(
                     "human_resource",
                     name = "hrm_human_resource",
