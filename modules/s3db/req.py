@@ -202,7 +202,6 @@ class S3RequestModel(S3Model):
                           Field("priority", "integer",
                                 default = 2,
                                 label = T("Priority"),
-                                #@ToDo: Colour code the priority text - red, orange, green
                                 represent = lambda opt: \
                                     req_priority_opts.get(opt, UNKNOWN_OPT),
                                 #represent = self.req_priority_represent,
