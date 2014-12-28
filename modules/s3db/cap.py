@@ -152,8 +152,8 @@ class S3CAPModel(S3Model):
                            ),
                      Field("sender",
                            label = T("Sender"),
-                           default = self.generate_sender,
-                           # @todo: can not be empty in alerts (validator!)
+                           requires = IS_EMPTY_OR(IS_EMAIL())
+                           # @ToDo: require sender for actual alerts but not for templates
                            ),
                      s3_datetime("sent",
                                  default = "now",
@@ -791,19 +791,6 @@ class S3CAPModel(S3Model):
 
         return "%s-%s-%d%s%s" % \
                     (prefix, _time, next_id, ["", "-"][bool(suffix)], suffix)
-
-    # -------------------------------------------------------------------------
-    @staticmethod
-    def generate_sender():
-        """
-            Generate a sender for a new form
-        """
-        try:
-            user_id = current.auth.user.id
-        except AttributeError:
-            return ""
-
-        return "%s/%d" % (current.xml.domain, user_id)
 
     # -------------------------------------------------------------------------
     @staticmethod

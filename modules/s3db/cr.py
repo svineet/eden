@@ -290,6 +290,7 @@ class S3ShelterModel(S3Model):
                            ),
                      Field("email", "string",
                            label = T("Email"),
+                           requires = IS_EMPTY_OR(IS_EMAIL())
                            ),
                      self.pr_person_id(label = T("Contact Person / Camp Owner")),
                      #Static field
