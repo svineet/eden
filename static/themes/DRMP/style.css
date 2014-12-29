@@ -188,3 +188,9 @@ div.navbar .nav > li > a {
     margin-left: auto;
     margin-right: auto;
 }
+
+/* Organisation Page */
+
+#create-org-span {
+    margin-left: 5px;
+}

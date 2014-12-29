@@ -3290,14 +3290,17 @@ def customise_org_organisation_controller(**attr):
            isinstance(output, dict) and \
            current.auth.s3_has_permission("create", r.table):
             # Insert a Button to Create New in Modal
-            output["showadd_btn"] = A(I(_class="icon icon-plus-sign big-add"),
-                                      _href=URL(c="org", f="organisation",
-                                                args=["create.popup"],
-                                                vars={"refresh": "datalist"}),
-                                      _class="btn btn-primary s3_modal",
-                                      _role="button",
-                                      _title=T("Create Organization"),
-                                      )
+            output["showadd_btn"] = A(
+                CAT(I(_class="icon icon-plus-sign big-add"),
+                    SPAN(T("Create Organization"),
+                         _id="create-org-span")),
+                _href=URL(c="org", f="organisation",
+                          args=["create.popup"],
+                          vars={"refresh": "datalist"}),
+                _class="btn btn-primary s3_modal",
+                _role="button",
+                _title=T("Create Organization"),
+                )
 
         # Call standard postp
         if callable(standard_postp):
