@@ -192,8 +192,14 @@ $(document).ready(function(){
                       shelter_list
                       )
         else:
-            # @todo: check permission and provide an "Add Shelter" button
-            #        if not shelters are yet registered
+            if current.auth.s3_has_permission("create", current.db.cr_shelter):
+                return LI(A(T("Create Shelter"),
+                            _href=URL(c="cr",
+                                      f="shelter",
+                                      args=["create"]),
+                            _class="button button-home"
+                            )
+                          )
             return ""
 
     # -------------------------------------------------------------------------
@@ -224,8 +230,14 @@ $(document).ready(function(){
                       event_list
                       )
         else:
-            # @todo: check permission and provide an "Add Event" button
-            #        if not events are yet registered?
+            if current.auth.s3_has_permission("create", current.db.event_event):
+                return LI(A(T("Create Event"),
+                            _href=URL(c="event",
+                                      f="event",
+                                      args=["create"]),
+                            _class="button button-home"
+                            )
+                          )
             return ""
 
     # -------------------------------------------------------------------------
