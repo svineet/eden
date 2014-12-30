@@ -42,3 +42,57 @@
     background-image: url(../../img/sunflower_spin_throbber.gif);
     background-repeat: no-repeat;
 }
+
+#submit_record__row.form-actions {
+    background: none;
+    border-top: none;
+    padding-bottom: none;
+    width: 220px;
+    margin-bottom: -24px;
+    margin-left: -10px;
+    margin-right: 25px;
+    position: relative;
+}
+#auth_user_remember__row label {
+     margin-left: 28px;
+     margin-top: -19px;
+     margin-right: 20px;
+ }
+
+.dropdown-menu input.btn {
+    /* Make appear on same row */
+    position: relative;
+    left: 150px;
+    top: auto;
+    }
+    
+ul.nav li.dropdown:hover > ul.dropdown-menu {
+    display: block;
+    height: 200px;
+    overflow: scroll;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.form-container div.tooltip {
+    float: left;
+    background: url("../../img/help_on.gif") no-repeat scroll;
+    width: 20px;
+    margin: 0px;
+    padding-top: 1px;
+}
+
+.form-horizontal .control-label {
+    float: left;
+    padding-right: 15px;
+    text-align: right;
+}
+
+.inline-add {
+    background-image: url(../../img/bootstrap/add.png);
+    background-repeat: no-repeat;
+    height: 23px;
+    width: 23px;
+    margin-left: -10px;
+    margin-top: 5px;
+}
