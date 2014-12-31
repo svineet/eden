@@ -486,12 +486,11 @@ def customise_event_event_resource(r, tablename):
                                 "event_type_id",
                                 "start_date",
                                 "end_date",
-                                # @ToDo: Inline location_id field
-                                #S3SQLInlineComponent("event_location",
-                                #                     label = T("Location"),
-                                #                     multiple = False,
-                                #                     fields = [("", "location_id")],
-                                #                     ),
+                                S3SQLInlineComponent("event_location",
+                                                     label=T("Location"),
+                                                     multiple=False,
+                                                     fields=[("", "location_id")],
+                                                     ),
                                 "comments",
                                 *impact_crud_form_fields
                                 )
