@@ -98,8 +98,6 @@ class S3DeploymentModel(S3Model):
                      # @ToDo: Link to location via link table
                      # link table could be event_event_location for IFRC (would still allow 1 multi-country event to have multiple missions)
                      self.gis_location_id(),
-                     # @ToDo: Link to event_type via event_id link table instead of duplicating
-                     self.event_type_id(),
                      self.org_organisation_id(),
                      Field("code", length = 24,
                            represent = lambda v: s3_unicode(v) if v else NONE,
@@ -122,7 +120,12 @@ class S3DeploymentModel(S3Model):
 
         # CRUD Form
         crud_form = S3SQLCustomForm("name",
-                                    "event_type_id",
+                                    S3SQLInlineComponent(
+                                        "mission_event_type",
+                                        label="",
+                                        fields=["event_type_id"],
+                                        multiple=False
+                                        ),
                                     "location_id",
                                     "code",
                                     "status",
@@ -263,7 +266,7 @@ class S3DeploymentModel(S3Model):
                   filter_widgets = [
                     S3TextFilter(["name",
                                   "code",
-                                  "event_type_id$name",
+                                  "mission_event_type.event_type_id$name",
                                   ],
                                  label=T("Search")
                                  ),
@@ -273,7 +276,7 @@ class S3DeploymentModel(S3Model):
                                      levels=["L0"],
                                      hidden=True
                                      ),
-                    S3OptionsFilter("event_type_id",
+                    S3OptionsFilter("mission_event_type.event_type_id",
                                     widget="multiselect",
                                     hidden=True
                                     ),
@@ -288,7 +291,7 @@ class S3DeploymentModel(S3Model):
                     ],
                   list_fields = ["name",
                                  (T("Date"), "created_on"),
-                                 "event_type_id",
+                                 "mission_event_type.event_type_id",
                                  (T("Country"), "location_id"),
                                  "code",
                                  (T("Responses"), "response_count"),
@@ -332,6 +335,13 @@ class S3DeploymentModel(S3Model):
                        deploy_assignment = "mission_id",
                        deploy_alert = "mission_id",
                        deploy_response = "mission_id",
+                       deploy_event_type={
+                           "joinby": "mission_id",
+                           "link": "deploy_mission_event_type",
+                           "key": "event_type_id",
+                           "actuate": "hide"
+                           },
+                       deploy_mission_event_type="mission_id"
                        )
 
         # CRUD Strings
@@ -362,6 +372,15 @@ class S3DeploymentModel(S3Model):
                                                           "deploy_mission.id",
                                                           represent),
                                      )
+
+        # ---------------------------------------------------------------------
+        # Link table: Deploy mission <> Event type
+        #
+        tablename = "deploy_mission_event_type"
+        define_table(tablename,
+                     mission_id(),
+                     self.event_type_id(),
+                     *s3_meta_fields())
 
         # ---------------------------------------------------------------------
         # Link table to link documents to missions, responses or assignments
@@ -1193,9 +1212,19 @@ def deploy_rheader(r, tabs=[], profile=False):
                                TH("%s: " % table[f].label, **attr)
                 value = lambda f, table=table, record=record, **attr: \
                                TD(table[f].represent(record[f]), **attr)
+
+                db = current.db
+                ltable = db.deploy_mission_event_type
+                event_type_label = TH(ltable["event_type_id"].label)
+
+                event_id_field = ltable.event_type_id
+                row = db(ltable.mission_id == record.id).select(event_id_field,
+                                                                limitby=(0, 1))[0]
+                event_type_value = TD(event_id_field.represent(row["event_type_id"]))
+
                 rheader = DIV(H2(title),
-                              TABLE(TR(label("event_type_id"),
-                                       value("event_type_id"),
+                              TABLE(TR(event_type_label,
+                                       event_type_value,
                                        label("location_id"),
                                        value("location_id"),
                                        label("code"),
