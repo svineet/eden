@@ -284,11 +284,15 @@ class S3EventModel(S3Model):
                                                 levels = levels,
                                                 label = T("Location"),
                                                 ),
-                               # @ToDo: Filter for any event which starts or ends within a date range
                                S3DateFilter("start_date",
-                                            label = None,
+                                            label=T("Start Date"),
                                             hide_time = True,
                                             input_labels = {"ge": "From", "le": "To"}
+                                            ),
+                               S3DateFilter("end_date",
+                                            label=T("End Date"),
+                                            hide_time=True,
+                                            input_labels={"ge": "From", "le": "To"}
                                             ),
                                ))
 
@@ -324,6 +328,7 @@ class S3EventModel(S3Model):
                                  "event_type_id$name",
                                  (T("Location"), "location.name"),
                                  "start_date",
+                                 "end_date",
                                  "exercise",
                                  "closed",
                                  "comments",
