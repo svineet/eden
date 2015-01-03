@@ -187,7 +187,6 @@ class S3PatientModel(S3Model):
         # ---------------------------------------------------------------------
         # Homes
         #
-        # @ToDo: Default the Home Phone Number from the Person, if available
         # @ToDo: Onvalidation to set the Relative's Contact
 
         tablename = "patient_home"
@@ -202,8 +201,8 @@ class S3PatientModel(S3Model):
                           #person_id(label = T("Home Relative")),
                           self.gis_location_id(
                               label = T("Home City"),
-                              requires = IS_LOCATION(level="L2"),
-                              widget = S3LocationAutocompleteWidget(level="L2"),
+                              requires = IS_LOCATION(),
+                              widget = S3LocationAutocompleteWidget(),
                               ),
                           Field("phone",
                                 label = T("Home Phone Number"),
@@ -225,10 +224,22 @@ class S3PatientModel(S3Model):
             msg_record_deleted = T("Home deleted"),
             msg_list_empty = T("No Homes currently registered"))
 
+        self.configure(tablename,
+                       onvalidation=self.patient_home_form_validation)
+
         # ---------------------------------------------------------------------
         # Pass names back to global scope (s3.*)
         #
         return dict()
+
+    @staticmethod
+    def patient_home_form_validation(form):
+        fvars = form.vars
+        db = current.db
+
+        if fvars.get("phone") is None:
+            print fvars
+            # fvars["phone"] = fvars["mobile_phone"]
 
 # =============================================================================
 class patient_PatientRepresent(S3Represent):
