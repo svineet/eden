@@ -539,6 +539,48 @@ def config(settings):
             return rheader
 
         attr["rheader"] = task_rheader
+
+        standard_prep = s3.prep
+        def prep(r):
+            if callable(standard_prep):
+                result = standard_prep(r)
+                if not result:
+                    return False
+
+            gvars = current.request.get_vars
+            if gvars.get("my_task", "0") == "1" and not r.record:
+                user = current.auth.s3_logged_in_person()
+                query = S3FieldSelector("~.project_member.person_id") == user
+                r.resource.add_filter(query)
+
+            return True
+
+        s3.prep = prep
+
+        standard_postp = s3.postp
+        def postp(r, output):
+            if callable(standard_postp):
+                output = standard_postp(r, output)
+
+            if auth.is_logged_in() and r.representation == "html":
+                filter_url = URL(c="project", f="task", vars={"my_task": 1})
+                if "showadd_btn" in output:
+                    add_btn = output["showadd_btn"]
+                else:
+                    add_btn = ""
+                output["showadd_btn"] = CAT(add_btn,
+                                            A(T("My Tasks"),
+                                              _href=filter_url,
+                                              _class="btn btn-primary mytask-btn",
+                                              # id for equal height as add btn
+                                              _id="show-add-btn"
+                                              )
+                                            )
+            return output
+
+        s3.postp = postp
+
+        attr["hide_filter"] = False
         return attr
 
     settings.customise_project_task_controller = customise_project_task_controller
