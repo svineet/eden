@@ -37,6 +37,10 @@
     margin-left: 1%;
 }
 
+.mytask-btn {
+    margin: 5px;
+}
+
 /* Sunflower Throbber */
 .s3-twitter-throbber {
     background-image: url(../../img/sunflower_spin_throbber.gif);
