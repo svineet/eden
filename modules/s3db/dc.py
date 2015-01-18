@@ -268,7 +268,6 @@ class DataCollectionModel(S3Model):
                      self.gis_location_id(),
                      # @todo: default to user root-org
                      self.org_organisation_id(),
-                     # @todo: default to logged-in user
                      self.pr_person_id(),
                      s3_comments(),
                      *s3_meta_fields())
@@ -276,6 +275,7 @@ class DataCollectionModel(S3Model):
         # Configuration
         self.configure(tablename,
                        super_entity = "doc_entity",
+                       onvalidation=self.dc_collection_form_validation
                        )
 
         # Components
@@ -323,8 +323,11 @@ class DataCollectionModel(S3Model):
         define_table(tablename,
                      collection_id(),
                      self.dc_question_id(),
-                     # @todo: elaborate:
-                     Field("answer"),
+                     Field("answer", "text",
+                           label=T("Answer"),
+                           comment=DIV(_title="%s|" % T("Answer"),
+                                       _class="tooltip"
+                                       )),
                      s3_comments(),
                      *s3_meta_fields())
 
@@ -346,6 +349,16 @@ class DataCollectionModel(S3Model):
         # Pass names back to global scope (s3.*)
         return dict(dc_collection_id = collection_id,
                     )
+
+    @staticmethod
+    def dc_collection_form_validation(form):
+        """
+            To set defaults for person and org
+        """
+        fvars = form.vars
+
+        if fvars.person_id is None:
+            fvars.person_id = current.auth.s3_logged_in_person()
 
     # -------------------------------------------------------------------------
     @staticmethod
